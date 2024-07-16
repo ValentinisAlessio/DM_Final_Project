@@ -142,14 +142,16 @@ if __name__ == "__main__":
 
     pattern = re.compile(r"Execution Time: (\d+\.\d+) ms")
 
-    for query in query_list:
-        query_name = f"query_{query}"
-        print(f"Executing {query_name}")
-        for i in range(5):
+    for i in range(5):
+        for query in query_list:
+            query_name = f"query_{query}"
+            print(f"Executing {query_name}")
             explain = explain_analyze(eval(query_name), conn)
 
             match = pattern.search(str(explain))
 
             df.loc[len(df)] = [query , float(match.group(1))]
+
+    df.sort_values("query", inplace = True)
 
     df.to_csv("times/base_benchmark.csv", index = False)
