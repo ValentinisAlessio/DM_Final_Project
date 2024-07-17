@@ -112,10 +112,10 @@ if __name__ == "__main__":
     conn = psycopg2.connect(
         dbname = "dw_cs", 
         user = "postgres", 
-        # host= 'localhost',
-        host = '172.30.160.1',
-        # password = "Mu34zi72",
-        password = "postgres",
+        host= 'localhost',
+        # host = '172.30.160.1',
+        password = "Mu34zi72",
+        # password = "postgres",
         port = 5432
     )
 
