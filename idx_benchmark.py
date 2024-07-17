@@ -77,25 +77,25 @@ WHERE
 
 """
 
-# query_17 = """
-# SELECT
-#     SUM(l_extendedprice) / 7.0 AS avg_yearly
-# FROM
-#     lineitem,
-#     part
-# WHERE
-#     l_partkey = p_partkey
-#     AND p_brand = 'Brand#23'
-#     AND p_container = 'MED BOX'
-#     AND l_quantity < (
-#         SELECT
-#             0.2 * AVG(l_quantity)
-#         FROM
-#             lineitem
-#         WHERE
-#             p_partkey = l_partkey
-#     );
-# """
+query_17 = """
+SELECT
+    SUM(l_extendedprice) / 7.0 AS avg_yearly
+FROM
+    lineitem,
+    part
+WHERE
+    l_partkey = p_partkey
+    AND p_brand = 'Brand#23'
+    AND p_container = 'MED BOX'
+    AND l_quantity < (
+        SELECT
+            0.2 * AVG(l_quantity)
+        FROM
+            lineitem
+        WHERE
+            p_partkey = l_partkey
+    );
+"""
 
 def explain_analyze(query, conn, analyze = True):
     conn.rollback()
@@ -109,6 +109,7 @@ def explain_analyze(query, conn, analyze = True):
 
 
 if __name__ == "__main__":
+    
     conn = psycopg2.connect(
         dbname = "dw_cs", 
         user = "postgres", 
@@ -121,9 +122,9 @@ if __name__ == "__main__":
 
     conn.rollback()
     with conn.cursor() as cur:
-        cur.execute("SET enable_seqscan = on;")
+        cur.execute("SET enable_seqscan = off;")
         cur.execute("SET enable_indexscan = on;")
-        cur.execute("SET enable_bitmapscan = off;")
+        cur.execute("SET enable_bitmapscan = on;")
         cur.execute("SET enable_indexonlyscan = off;")
         cur.execute("SET enable_tidscan = off;")
         cur.execute("SET enable_material = off;")
@@ -134,9 +135,12 @@ if __name__ == "__main__":
         cur.execute("SET enable_partition_pruning = off;")
         cur.execute("SET enable_partitionwise_join = off;")
         cur.execute("SET enable_partitionwise_aggregate = off;")
+        cur.execute("CREATE INDEX IF NOT EXISTS idx_l_shipdate ON lineitem (l_shipdate);")
+        cur.execute("CREATE INDEX IF NOT EXISTS idx_o_orderdate ON orders (o_orderdate);")
+        cur.execute("CREATE INDEX IF NOT EXISTS idx_p_brand ON part USING hash (p_brand);")    
         conn.commit()
 
-    query_list = [1,10,14]      #,17]
+    query_list = [1,10,14,17]
 
     df = pd.DataFrame(columns = ["query", "Execution Rime [ms]"])
 
@@ -154,6 +158,12 @@ if __name__ == "__main__":
 
     df.sort_values("query", inplace = True)
 
-    df.to_csv("times/base_benchmark.csv", index = False)
+    df.to_csv("times/index_benchmark.csv", index = False)
 
+    with conn.cursor() as cur:
+        cur.execute("DROP INDEX IF EXISTS idx_l_shipdate;")
+        cur.execute("DROP INDEX IF EXISTS idx_o_orderdate;")
+        cur.execute("DROP INDEX IF EXISTS idx_p_brand;")
+        conn.commit()
+    
     conn.close()
