@@ -1,0 +1,24 @@
+\section{Baseline}
+
+We decided to test the execution time of queries without additional indexes or views, other than the keys suggested by the documentation, and to use it as a baseline for further improvement in the management of the queries.
+
+We obtained the execution times using the \emph{EXPLAIN ANALYZE} function available in PostgreSQL. The times represent the total estimated cost to execute the (entire) query. They are the sum of the startup cost and the cost to process all rows.
+
+Every query has been tested five times, in order to record the mean and the standard deviation of the execution time, leading to more robust results.
+
+The results of the tests are reported in the plot at table \ref{tab:baseline_exec_time}.
+[ADD COMMENT ON THE QUERY 17 RESULTS]
+
+\begin{table}[H]
+\centering 
+\begin{tabular}{c|c|c} 
+\rowcolor{blue!50} Query & Mean & Std\\ 
+\rowcolor{gray!10} Q. 1 &41.778 &1.412\\
+\rowcolor{white} Q. 10 &33.077 &1.634\\
+\rowcolor{gray!10} Q. 14 &28.253 &1.239\\
+\rowcolor{white} Q. 17 &N/A &N/A \\
+\end{tabular}\\[0.5cm] 
+\caption{Execution times of query} 
+\label{tab:baseline_exec_time} 
+\end{table}
+
