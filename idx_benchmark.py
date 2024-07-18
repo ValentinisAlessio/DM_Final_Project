@@ -115,8 +115,7 @@ if __name__ == "__main__":
         user = "postgres", 
         host= 'localhost',
         # host = '172.30.160.1',
-        password = "Mu34zi72",
-        # password = "postgres",
+        password = "postgres",
         port = 5432
     )
 
@@ -136,10 +135,15 @@ if __name__ == "__main__":
         cur.execute("SET enable_partitionwise_join = off;")
         cur.execute("SET enable_partitionwise_aggregate = off;")
         cur.execute("CREATE INDEX IF NOT EXISTS idx_l_shipdate ON lineitem (l_shipdate);")
+<<<<<<< HEAD
         cur.execute("CREATE INDEX IF NOT EXISTS idx_o_orderdate ON orders (o_orderdate);")
         cur.execute("CREATE INDEX IF NOT EXISTS idx_l_partkey ON lineitem (l_partkey);")
         cur.execute("CREATE INDEX IF NOT EXISTS idx_p_container ON part USING hash (p_container);")
         cur.execute("CREATE INDEX IF NOT EXISTS idx_p_brand ON part USING hash (p_brand);")    
+=======
+        cur.execute("CREATE INDEX IF NOT EXISTS idx_l_returnflag ON lineitem (l_returnflag);")
+        cur.execute("CREATE INDEX IF NOT EXISTS idx_l_partkey ON lineitem (l_partkey);")    
+>>>>>>> b659fa1dbaeb1a0b2b0e3ad5016254be96779001
         conn.commit()
 
     query_list = [1,10,14,17]
@@ -151,12 +155,23 @@ if __name__ == "__main__":
     for i in range(5):
         for query in query_list:
             query_name = f"query_{query}"
+
             print(f"Executing {query_name}")
+            if query == 10:
+                with conn.cursor() as cur:
+                    cur.execute("SET enable_bitmapscan = off;")
+                    conn.commit()
+            else:
+                with conn.cursor() as cur:
+                    cur.execute("SET enable_bitmapscan = on;")
+                    conn.commit()
+            
             explain = explain_analyze(eval(query_name), conn)
 
             match = pattern.search(str(explain))
 
             df.loc[len(df)] = [query , float(match.group(1))]
+            print(f"Execution Time: {match.group(1)} ms")
 
     df.sort_values("query", inplace = True)
 
@@ -168,6 +183,8 @@ if __name__ == "__main__":
         cur.execute("DROP INDEX IF EXISTS idx_l_partkey;")
         cur.execute("DROP INDEX IF EXISTS idx_p_container;")
         cur.execute("DROP INDEX IF EXISTS idx_p_brand;")
+        cur.execute("DROP INDEX IF EXISTS idx_l_partkey;")
+        cur.execute("DROP INDEX IF EXISTS idx_l_returnflag;")
         conn.commit()
     
     conn.close()
