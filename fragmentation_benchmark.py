@@ -122,23 +122,23 @@ if __name__ == "__main__":
     with conn.cursor() as cur:
         cur.execute("SET enable_seqscan = on;")
         cur.execute("SET enable_indexscan = on;")
-        cur.execute("SET enable_bitmapscan = off;")
+        cur.execute("SET enable_bitmapscan = on;")
         cur.execute("SET enable_indexonlyscan = off;")
         cur.execute("SET enable_tidscan = off;")
         cur.execute("SET enable_material = off;")
         cur.execute("SET enable_nestloop = on;")
-        cur.execute("SET enable_mergejoin = off;")
+        cur.execute("SET enable_mergejoin = on;")
         cur.execute("SET enable_hashjoin = off;")
         cur.execute("SET enable_sort = on;")
         cur.execute("SET enable_partition_pruning = on;")
-        cur.execute("SET enable_partitionwise_join = off;")
-        cur.execute("SET enable_partitionwise_aggregate = off;")
+        cur.execute("SET enable_partitionwise_join = on;")
+        cur.execute("SET enable_partitionwise_aggregate = on;")
         cur.execute("SET constraint_exclusion = on;")
         conn.commit()
 
-    query_list = [1,14]      
+    query_list = [1,10,14]      
 
-    df = pd.DataFrame(columns = ["query", "Execution Rime [ms]"])
+    df = pd.DataFrame(columns = ["query", "Execution Time [ms]"])
 
     pattern = re.compile(r"Execution Time: (\d+\.\d+) ms")
 
@@ -155,3 +155,5 @@ if __name__ == "__main__":
     df.sort_values("query", inplace = True)
 
     df.to_csv("times/fragmentation.csv", index = False)
+
+    conn.close()
