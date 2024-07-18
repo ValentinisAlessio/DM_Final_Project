@@ -1,0 +1,37 @@
+\section{Materialized views}
+In this section we will propose some materialized views that aim to improve the execution time of the chosen queries.
+\subsection{Lineitem-part}
+In order to improve performances in executing query 14 we decided to create a materialized view as follow:
+\begin{sql}
+CREATE MATERIALIZED VIEW part_lineitem AS
+SELECT
+    l_returnflag,
+    l_linestatus,
+    l_quantity,
+    l_extendedprice,
+    l_discount,
+    l_tax,
+    l_shipdate,
+    l_partkey,
+    p_partkey,
+    p_brand,
+    p_container,
+    SUBSTRING(p_type FROM 1 FOR 5) AS p_type_prefix,
+    0.2 * AVG(l_quantity) OVER (PARTITION BY l_partkey) AS avg_quantity
+FROM
+    lineitem l
+JOIN
+    part p ON l.l_partkey = p.p_partkey;
+\end{sql}
+Materializing the join operation of query 14 we expect to have a lower execution time with respect to the baseline.
+
+\textbf{Statistics of this view:}
+\begin{itemize}
+    \item Required time to create the view: 6 minutes and 35 seconds 
+            %395.242 seconds
+            using merge join, 3 minutes and 40 seconds using hash join.
+    \item Size of the view: 5782.5078125 MB.
+            
+\end{itemize}
+
+

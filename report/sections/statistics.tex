@@ -1,0 +1,90 @@
+\section{Statistics of the DB}
+In this section, we will present some useful statistics of the database.
+
+The original database has a total dimension of 14681.63 MB, this encompasses both the physical size of the tables and the dimensions of primary and secondary indexes across various attributes.
+
+%SISTEMERO' IL RIFERIMENTO
+In section \ref{appdx:stats} it can be found the complete statistics of the tables detailing its attributes along with the count of unique values, minimum, and maximum values for each attribute.
+
+Here, to keep the focus on the four queries that we want to optimize, we will limit the presentation to some of that statistics. Specifically we decided to mention only the tables and the attributes that will be involved in at least one of the chosen query. 
+
+
+\begin{table}[H]
+\centering
+\begin{tabular}{c|c|c|c}
+\rowcolor{blue!50} Attribute & Distinct values & Min value & Max value\\
+\rowcolor{gray!10} \textbf{c\_custkey} & 1500000 & 1 & 1500000 \\ 
+\rowcolor{white} c\_name & 1500000 & 'Customer\#000000001' & 'Customer\#001500000'\\ 
+\rowcolor{gray!10} c\_address & 1500000 & - & - \\ 
+\rowcolor{white} c\_nationkey & 25 & 0 & 24\\ 
+\rowcolor{gray!10} c\_phone & 1499963 & - & - \\
+\rowcolor{white} c\_acctbal & 818834 & '-999.99' & '9999.99' \\
+%\rowcolor{gray!10} c\_mktsegment & 5 & - & - \\
+\rowcolor{gray!10} c\_comment & 1496636 & - & - \\
+\end{tabular}\\[0.5cm]
+    \caption{Costumer statistics}
+    \label{tab:costumer_stats}
+\end{table}
+
+
+\begin{table}[H]
+\centering
+\begin{tabular}{c|c|c|c}
+\rowcolor{blue!50} Attribute & Distinct values & Min value & Max value\\
+\rowcolor{gray!10} \textbf{p\_partkey} & 2000000 & 1 & 2000000 \\
+\rowcolor{white} p\_type & 150 & - & - \\
+\rowcolor{gray!10} p\_container & 40 & - & - \\
+\end{tabular}\\[0.5cm]
+    \caption{Part statistics}
+    \label{tab:part_stats}
+\end{table}
+
+
+\begin{table}[H]
+\centering
+\begin{tabular}{c|c|c|c} 
+\rowcolor{blue!50} Attribute & Distinct values & Min value & Max value \\
+\rowcolor{gray!10} \textbf{l\_orderkey} & 15000000 & 1 & 60000000 \\ 
+\rowcolor{white} l\_partkey & 2000000 & 1 & 2000000 \\
+\rowcolor{gray!10} l\_quantity & 50 & 1 & 50 \\
+\rowcolor{white} l\_extendedprice & 1351462 & 900.91 & 104949.5 \\
+\rowcolor{gray!10} l\_discount & 11 & '0.0' & '0.1' \\
+\rowcolor{white} l\_tax & 9 & '0.0' & '0.08' \\
+\rowcolor{gray!10} l\_returnflag & 3 & - & - \\
+\rowcolor{white} l\_linestatus & 2 & - & - \\
+\rowcolor{gray!10} l\_shipdate & 2526 & '1992-01-02' & '1998-12-01' \\
+\rowcolor{white} \textbf{l\_linenumber} & 7 & 1 & 7 \\
+\end{tabular}\\[0.5cm]
+    \caption{Lineitem statistics}
+    \label{tab:lineitem_stats}
+\end{table}
+
+\begin{table}[H]
+\centering
+\begin{tabular}{c|c|c|c} 
+\rowcolor{blue!50} Attribute & Distinct values & Min value & Max value \\
+\rowcolor{gray!10} \textbf{o\_orderkey} & 15000000 & 1 & 60000000 \\
+\rowcolor{white} o\_custkey & 999982 & 1 & 1499999 \\
+%\rowcolor{gray!10} o\_orderstatus & 3 & - & - \\
+%\rowcolor{white} o\_totalprice & 11944103 & '838.05' & '558822.56' \\
+\rowcolor{gray!10} o\_orderdate & 2406 & '1992-01-01' & '1998-08-02' \\
+%\rowcolor{white} o\_orderpriority & 5 & - & - \\
+\end{tabular}\\[0.5cm] 
+    \caption{Orders statistics}
+    \label{tab:orders_stats}
+\end{table}
+
+
+
+\begin{table}[H]
+\centering
+\begin{tabular}{c|c|c|c} 
+\rowcolor{blue!50} Attribute & Distinct values & Min value & Max value \\
+\rowcolor{gray!10} \textbf{n\_nationkey} & 25 & 0 & 24 \\
+\rowcolor{white} n\_name & 25 & - & - \\
+\end{tabular}\\[0.5cm]
+    \caption{Nation statistics}
+    \label{tab:nation_stats}
+\end{table}
+
+%% FORSE DI QUESTE TABELLE SAREBBE BENE, PER MAGGIORE CHIAREZZA, TENERE SOLO GLI ATTRIBUTI CHE SONO FK O CHE SONO USATI NELLE QUERY, SENNò VIENE TUTTO UN CASOTTO

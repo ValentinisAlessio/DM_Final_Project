@@ -1,0 +1,6 @@
+\section{Fragmentation}
+We considered to implement the fragmentation only for the tables of lineitem and orders since they are the most computationally expansive to scan entirely and since they are strictly involved in the set of our chosen queries.
+
+While designing the fragmentation, we have always considered the broader aspect of the database as a decision-making tool, avoiding introducing too specific partitions that could have improved the specific set of chosen queries, but would have unnecessarily burdened the database as they were not generalizable to other queries. Therefore, we decided to consider a temporal fragmentation, as the temporal dimension is often involved in slicing conditions, even outside of the chosen queries. 
+
+In particular we fragmented the orders table with respect to the o\_orderdate attribute. Each partitioned table contains a timespan of three monthes to allow a significant improvement in executing query 10. 
