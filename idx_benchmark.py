@@ -109,7 +109,7 @@ def explain_analyze(query, conn, analyze = True):
 
 
 if __name__ == "__main__":
-    
+
     conn = psycopg2.connect(
         dbname = "dw_cs", 
         user = "postgres", 
@@ -125,7 +125,7 @@ if __name__ == "__main__":
         cur.execute("SET enable_seqscan = off;")
         cur.execute("SET enable_indexscan = on;")
         cur.execute("SET enable_bitmapscan = on;")
-        cur.execute("SET enable_indexonlyscan = off;")
+        cur.execute("SET enable_indexonlyscan = on;")
         cur.execute("SET enable_tidscan = off;")
         cur.execute("SET enable_material = off;")
         cur.execute("SET enable_nestloop = on;")
@@ -137,6 +137,8 @@ if __name__ == "__main__":
         cur.execute("SET enable_partitionwise_aggregate = off;")
         cur.execute("CREATE INDEX IF NOT EXISTS idx_l_shipdate ON lineitem (l_shipdate);")
         cur.execute("CREATE INDEX IF NOT EXISTS idx_o_orderdate ON orders (o_orderdate);")
+        cur.execute("CREATE INDEX IF NOT EXISTS idx_l_partkey ON lineitem (l_partkey);")
+        cur.execute("CREATE INDEX IF NOT EXISTS idx_p_container ON part USING hash (p_container);")
         cur.execute("CREATE INDEX IF NOT EXISTS idx_p_brand ON part USING hash (p_brand);")    
         conn.commit()
 
@@ -163,6 +165,8 @@ if __name__ == "__main__":
     with conn.cursor() as cur:
         cur.execute("DROP INDEX IF EXISTS idx_l_shipdate;")
         cur.execute("DROP INDEX IF EXISTS idx_o_orderdate;")
+        cur.execute("DROP INDEX IF EXISTS idx_l_partkey;")
+        cur.execute("DROP INDEX IF EXISTS idx_p_container;")
         cur.execute("DROP INDEX IF EXISTS idx_p_brand;")
         conn.commit()
     
