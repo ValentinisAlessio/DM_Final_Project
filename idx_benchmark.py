@@ -135,15 +135,12 @@ if __name__ == "__main__":
         cur.execute("SET enable_partitionwise_join = off;")
         cur.execute("SET enable_partitionwise_aggregate = off;")
         cur.execute("CREATE INDEX IF NOT EXISTS idx_l_shipdate ON lineitem (l_shipdate);")
-<<<<<<< HEAD
         cur.execute("CREATE INDEX IF NOT EXISTS idx_o_orderdate ON orders (o_orderdate);")
         cur.execute("CREATE INDEX IF NOT EXISTS idx_l_partkey ON lineitem (l_partkey);")
         cur.execute("CREATE INDEX IF NOT EXISTS idx_p_container ON part USING hash (p_container);")
         cur.execute("CREATE INDEX IF NOT EXISTS idx_p_brand ON part USING hash (p_brand);")    
-=======
         cur.execute("CREATE INDEX IF NOT EXISTS idx_l_returnflag ON lineitem (l_returnflag);")
         cur.execute("CREATE INDEX IF NOT EXISTS idx_l_partkey ON lineitem (l_partkey);")    
->>>>>>> b659fa1dbaeb1a0b2b0e3ad5016254be96779001
         conn.commit()
 
     query_list = [1,10,14,17]
