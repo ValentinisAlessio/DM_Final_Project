@@ -130,6 +130,7 @@ if __name__ == "__main__":
         cur.execute("SET enable_nestloop = on;")
         cur.execute("SET enable_mergejoin = on;")
         cur.execute("SET enable_hashjoin = off;")
+        cur.execute("SET enable_hashagg = on;")
         cur.execute("SET enable_sort = on;")
         cur.execute("SET enable_partition_pruning = off;")
         cur.execute("SET enable_partitionwise_join = off;")
