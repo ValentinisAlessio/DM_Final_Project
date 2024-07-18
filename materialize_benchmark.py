@@ -2,29 +2,6 @@ import psycopg2
 import pandas as pd
 import re
 
-query_1 = """
-SELECT
-    l_returnflag,
-    l_linestatus,
-    SUM(l_quantity) AS sum_qty,
-    SUM(l_extendedprice) AS sum_base_price,
-    SUM(l_extendedprice * (1 - l_discount)) AS sum_disc_price,
-    SUM(l_extendedprice * (1 - l_discount) * (1 + l_tax)) AS sum_charge,
-    AVG(l_quantity) AS avg_qty,
-    AVG(l_extendedprice) AS avg_price,
-    AVG(l_discount) AS avg_disc,
-    COUNT(*) AS count_order
-FROM
-    lineitem
-WHERE
-    l_shipdate <= DATE '1998-12-01' - INTERVAL '90' DAY
-GROUP BY
-    l_returnflag,
-    l_linestatus
-ORDER BY
-    l_returnflag,
-    l_linestatus;
-"""
 
 query_10 = """
 SELECT
@@ -109,7 +86,7 @@ def explain_analyze(query, conn, analyze = True):
 
 
 if __name__ == "__main__":
-
+    
     conn = psycopg2.connect(
         dbname = "dw_cs", 
         user = "postgres", 
@@ -124,7 +101,7 @@ if __name__ == "__main__":
         cur.execute("SET enable_seqscan = off;")
         cur.execute("SET enable_indexscan = on;")
         cur.execute("SET enable_bitmapscan = on;")
-        cur.execute("SET enable_indexonlyscan = on;")
+        cur.execute("SET enable_indexonlyscan = off;")
         cur.execute("SET enable_tidscan = off;")
         cur.execute("SET enable_material = off;")
         cur.execute("SET enable_nestloop = on;")
@@ -136,10 +113,6 @@ if __name__ == "__main__":
         cur.execute("SET enable_partitionwise_join = off;")
         cur.execute("SET enable_partitionwise_aggregate = off;")
         cur.execute("CREATE INDEX IF NOT EXISTS idx_l_shipdate ON lineitem (l_shipdate);")
-        cur.execute("CREATE INDEX IF NOT EXISTS idx_o_orderdate ON orders (o_orderdate);")
-        cur.execute("CREATE INDEX IF NOT EXISTS idx_l_partkey ON lineitem (l_partkey);")
-        cur.execute("CREATE INDEX IF NOT EXISTS idx_p_container ON part USING hash (p_container);")
-        cur.execute("CREATE INDEX IF NOT EXISTS idx_p_brand ON part USING hash (p_brand);")    
         cur.execute("CREATE INDEX IF NOT EXISTS idx_l_returnflag ON lineitem (l_returnflag);")
         cur.execute("CREATE INDEX IF NOT EXISTS idx_l_partkey ON lineitem (l_partkey);")    
         conn.commit()
@@ -177,10 +150,6 @@ if __name__ == "__main__":
 
     with conn.cursor() as cur:
         cur.execute("DROP INDEX IF EXISTS idx_l_shipdate;")
-        cur.execute("DROP INDEX IF EXISTS idx_o_orderdate;")
-        cur.execute("DROP INDEX IF EXISTS idx_l_partkey;")
-        cur.execute("DROP INDEX IF EXISTS idx_p_container;")
-        cur.execute("DROP INDEX IF EXISTS idx_p_brand;")
         cur.execute("DROP INDEX IF EXISTS idx_l_partkey;")
         cur.execute("DROP INDEX IF EXISTS idx_l_returnflag;")
         conn.commit()
