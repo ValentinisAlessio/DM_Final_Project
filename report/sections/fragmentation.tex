@@ -3,4 +3,21 @@ We considered to implement the fragmentation only for the tables of lineitem and
 
 While designing the fragmentation, we have always considered the broader aspect of the database as a decision-making tool, avoiding introducing too specific partitions that could have improved the specific set of chosen queries, but would have unnecessarily burdened the database as they were not generalizable to other queries. Therefore, we decided to consider a temporal fragmentation, as the temporal dimension is often involved in slicing conditions, even outside of the chosen queries. 
 
-In particular we fragmented the orders table with respect to the o\_orderdate attribute. Each partitioned table contains a timespan of three monthes to allow a significant improvement in executing query 10. 
+In particular we fragmented the orders table with respect to the \textbf{o\_orderdate} attribute. Each partitioned table contains a time-span of three months to allow a significant improvement in executing query 10. Furthermore we introduced in the partitioned tables a primary key in o\_orderkey and a foreign key on o\_custkey referencing c\_custkey.
+
+For the lineitem table we decided to use a partition on \textbf{l\_shipdate} and a sub-partition on \textbf{l\_returnflag}, to allow exploiting this partitioning in query 1, 10, 14.
+
+The results are reported in the table \ref{tab:fragm_exec_time}
+
+\begin{table}[H]
+\centering 
+\begin{tabular}{c|c|c} 
+\rowcolor{blue!50} Query & Mean & Std\\
+\rowcolor{gray!10} Q. 1 &60.109 &4.050\\
+\rowcolor{white} Q. 10 &19.369 &4.091\\
+\rowcolor{gray!10} Q. 14 &3.834 &0.160\\
+\rowcolor{white} Q. 17 &311.702 &85.586\\
+\end{tabular}\\[0.5cm] 
+\caption{Execution times of query with fragmented db} 
+\label{tab:fragm_exec_time} 
+\end{table}
