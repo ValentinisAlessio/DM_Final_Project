@@ -37,3 +37,24 @@ In the table \ref{tab:table_dimensions}, we provide some information about the d
     \caption{General statistics}
     \label{tab:table_dimensions}
 \end{table}
+
+\subsection{Measurement techniques}
+
+In order to assess the performance of the various queries, we used the 
+\verb|EXPLAIN ANALYZE| feature of \textit{PostgreSQL} (per gli amici Postgress). It provided a complete summary of the execution plan of the queries, and provides also the execution time in milliseconds.
+In order to have some significance on the result, we executed every query 5 times, and then we computed the mean and standard deviation of the measurements.
+
+In order to keep track of the dimension of the database, we used the 
+\verb|SELECT| \\
+\verb|pg_database_size();| command, and convert the dimension in MB or GB.
+
+\subsection{Hardware specifications}
+
+All the test were conducted on a MacBook Air laptop with the following characteristics:
+\begin{itemize}
+    \item CPU: Chip Apple M2, 8 core (4 performance cores and 4 efficiency cores);
+    \item RAM: 8GB;
+    \item SSD: SATA 256GB;
+    \item GPU: built-in 10 cores GPU;
+    \item OS: macOS Sonoma 14.2.1.
+\end{itemize}
