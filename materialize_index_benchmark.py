@@ -83,7 +83,7 @@ if __name__ == "__main__":
 
     conn.rollback()
     with conn.cursor() as cur:
-        cur.execute("SET enable_seqscan = on;")
+        cur.execute("SET enable_seqscan = off;")
         cur.execute("SET enable_indexscan = on;")
         cur.execute("SET enable_bitmapscan = on;")
         cur.execute("SET enable_indexonlyscan = off;")
@@ -120,9 +120,7 @@ if __name__ == "__main__":
 
     df.sort_values("query", inplace = True)
 
-    df.to_csv("times/materialize_benchmark.csv", index = False)
-
-
+    df.to_csv("times/materialize_index_benchmark.csv", index = False)
 
 
     conn.close()
