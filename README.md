@@ -44,6 +44,3 @@ The following software is required to run the scripts:
 Automatic benchmark was done using the `<base/idx/materialize/materialize_index>_benchmark.py` scripts.
 
 
-In conclusion, selecting a universal optimization framework for all proposed queries is complex. This task is made even more challenging by the trade-off we have to consider in terms of execution time and DB size.
-We can see that in absolute terms, at least with respect to time, on average the indexed materialized technique is the best in almost all the queries. Anyway, if we look at the performances that only indexes can provide, considering also their contribution to the final DB size, we can say that opting for simple indexing can seem the best approach.
-A final word can be said if the major set of queries involve slicing into time intervals. In this context, fragmenting horizontally the DB can have a significant improvement in terms of time execution, having almost the same size of the original DB, resulting in a huge gain. Anyway, if we have some queries that involve a scan of dates that comprehend the whole table, a fragmented approach only slows down the execution.
