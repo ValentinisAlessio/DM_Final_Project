@@ -36,7 +36,7 @@ The following software is required to run the scripts:
     git clone git@github.com:ValentinisAlessio/DM_Final_Project.git
     ```
 
-2. Initialize the database by running the `dbms.ipynb` notebook.
+2. Initialize the database by running the `init_db.ipynb` notebook.
 **ATTENTION:** In the script, for the bigger tables, we provided also a "*slim population*", that require less RAM. So run solely the chunks you need.
 
 3. For index generation and population of materializations, the notebooks `query.ipynb` and `materialize.ipynb` were used, also to evaluate the Execution plan of the queries.
