@@ -16,6 +16,9 @@
 \usepackage{blindtext}
 \usepackage{hyperref}
 
+\usepackage{geometry}
+\geometry{margin = 1.5 in}
+
 \usepackage{listings}
 \usepackage{xcolor}
 \definecolor{codekeyword}{rgb}{0.0, 0.5, 0.0} % Dark green
@@ -35,7 +38,7 @@
             SELECT, FROM, WHERE, GROUP BY, ORDER BY, EXTRACT, INSERT, 
             UPDATE, DELETE, CREATE, ALTER, DROP, JOIN, INNER, LEFT, RIGHT, 
             FULL, ON, DISTINCT, INTO, VALUES, SET, AS, AND, OR, NOT, IN, 
-            LIKE, IS, NULL, UNION, ALL, HAVING, BETWEEN, EXISTS},
+            LIKE, IS, NULL, UNION, ALL, HAVING, BETWEEN, EXISTS, OVER, PARTITION},
         breaklines=true,
         frame=single,
         framesep=3pt,
@@ -45,7 +48,7 @@
         tabsize=4,
         columns=flexible,
         %captionpos=b,
-        %title=#1,
+        title=#1,
         literate={\ }{{\space}}1
     }
 }{}
@@ -86,6 +89,7 @@
 %Conclusions
 \input{sections/conclusions}
 
+\newpage
 % Appendix
 \input{sections/appendix}
 \end{document}

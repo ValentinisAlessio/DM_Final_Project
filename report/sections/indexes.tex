@@ -2,18 +2,16 @@
 
 Our first attempt was to add indexes on foreign keys, but in almost all cases, they weren't used, or didn't bring too many advantages, compared with their size.
 
-For the sake of completeness we will report anyway the results (???).
-
 Our second attempt was to add indexes on the attributes used for slicing, so involved in the \verb|WHERE| condition.
 
 \begin{table}[H]
 \centering
 \begin{tabular}{c|c|c|c|c}
-\rowcolor{blue!50} Table & Attribute & Used in Query & Creation time [s] & Index size [MB]\\
-\rowcolor{gray!10} lineitem & l\_shipdate & Q1 & 32.43 & 397.54\\ 
-\rowcolor{white} lineitem & l\_returnflag & Q1 & 61.83 & 396.46\\ 
-\rowcolor{gray!10} lineitem & l\_partkey & Q17 & 46.99 & 429.50\\ 
-\rowcolor{white} orders & o\_orderdate & Q10 & 8.10 & \\ 
+\rowcolor{blue!50} Table    & Attribute     & Used in Query & Creation time [s] & Index size [MB]\\
+\rowcolor{gray!10} lineitem & l\_shipdate   & Q1            & 32.43             & 397.54 \\ 
+\rowcolor{white}   lineitem & l\_returnflag & Q1            & 61.83             & 396.46 \\ 
+\rowcolor{gray!10} lineitem & l\_partkey    & Q17           & 46.99             & 429.50 \\ 
+\rowcolor{white}   orders   & o\_orderdate  & Q10           & 8.10              &  100.18      \\ 
 \end{tabular}\\[0.5cm]
     \caption{Indexes dimensions}
    % \label{tab:costumer_stats}
@@ -26,12 +24,15 @@ The execution time of the queries is summarized in the table below.
 \begin{table}[H]
 \centering
 \begin{tabular}{c|c|c}
-\rowcolor{blue!50} Query & Mean & Std\\
-\rowcolor{gray!10} Q1     &30.009                &1.224\\
-\rowcolor{white} Q10    &25.677               &1.799\\
-\rowcolor{gray!10} Q14    &23.607               &0.327\\
-\rowcolor{white} Q17    &11.232               &0.967 \\
+\rowcolor{blue!50} Query  & Mean [s] & Std [s] \\
+\rowcolor{gray!10} Q1     & 30.009   &1.224    \\
+\rowcolor{white}   Q10    & 25.677   &1.799    \\
+\rowcolor{gray!10} Q14    & 23.607   &0.327    \\
+\rowcolor{white}   Q17    & 11.232   &0.967    \\
 \end{tabular}\\[0.5cm]
     \caption{Execution times of query with indexes}
     \label{tab:idx_exec_time}
 \end{table}
+
+
+[Comment on time gains in percentage]. See that doing only this we made query 17 feasible
