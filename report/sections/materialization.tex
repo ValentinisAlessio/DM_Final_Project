@@ -184,5 +184,11 @@ In this case we performed a complete benchmark, and the results are reported in 
 \label{tab:materialize} 
 \end{table}
 
+For the sake of completeness, we will briefly present an idea to optimize with materialization also query one, which is the only query in the chosen set that isn't directly influenced by the already introduced materialized views.
+We proposed a materialization that returns a "slimmer" version of the lineitem table with less attributes than the original one. Specifically we decided to keep only l\_returnflag, l\_linestatus, l\_extendedprice,l\_discount, l\_tax, l\_quantity. 
+
+This approach leaded to a slight decrease in the execution time of query 1, but this improvement was not so significant to balance the size of the materialized view and its specificity. Indeed this materialization is "taylored" to query 1 and it could hardly be used in the optimization of other queries.
+
+Since, in completing this project, we have always considered our set of four queries as a small subset of the possible query that a company may see as interesting in the decision making process, we didn't want to burden the database with too specific materialized views. For this reason we decided to not consider also this materialization, and to continue the project with only the materialized view that involves lineitem, part and orders tables.
 
 

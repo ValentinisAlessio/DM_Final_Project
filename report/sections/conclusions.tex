@@ -62,5 +62,5 @@ Query 14 is the one that obtained the most evident improvement with the fragment
 
 Regarding query 17 all the proposed form of optimization significantly improved the execution time with respect to the baseline (in principle with an execution time greater than 2 hours). A mixed approach of materialization and indexed allows to perform the slicing in a really efficient way, without having to perform the join at every execution since it's included in the pre-computed view.  
 
-
+As a general overview of this project we observe that a combination of different types of optimization is the best way to improve the performances of different queries. Also we can consider that sometimes it is important to find a balance between the benefits that a technique may carry in speeding up the computation, and the space (in term of memory) that this technique may require. Also it is important to average the effect of an optimization technique over different types of queries to avoid introducing too specific tools/procedures(?)
 [Supercazzola finale una volta che abbiamo i risultati]
