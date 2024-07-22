@@ -10,7 +10,7 @@
 **Date:**
 - 2024-07
 
-This repository ontains the code, results and plots relative to the Data Management exam within the [Data Science and Artificial Intelligence Master Program](https://dsai.units.it/), held at University of Trieste.
+This repository contains the code, results and plots relative to the Data Management exam within the [Data Science and Artificial Intelligence Master Program](https://dsai.units.it/), held at University of Trieste.
 
 All the results are explained in the [report](./DW_CS.pdf)
 
